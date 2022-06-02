@@ -15,16 +15,19 @@ public class Timeline : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        slider.maxValue = totalLength;
+        
         currentLength = 0;
+        currentLengthFloat = 0;
+        slider.minValue = 0;
         canPlay = true;
         totalLength = 30;
+        slider.maxValue = totalLength;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        slider.value = currentLength;
+        slider.value = Mathf.RoundToInt(currentLengthFloat);
         currentLength = Mathf.RoundToInt(currentLengthFloat);
         if (currentLengthFloat >= totalLength)
         {
