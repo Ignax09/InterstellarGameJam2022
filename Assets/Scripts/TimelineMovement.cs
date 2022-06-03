@@ -5,6 +5,8 @@ using UnityEngine;
 public class TimelineMovement : MonoBehaviour
 {
     public Vector3[] placeInTime;
+    public Vector3 boxExtents;
+    public GameObject player;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,10 @@ public class TimelineMovement : MonoBehaviour
     {
         if (Timeline.timeSkipped)
         {
+            if (Physics.CheckBox(transform.position, boxExtents, Quaternion.identity, 6, QueryTriggerInteraction.Collide));
+            {
+                player.transform.SetParent(null);
+            }
             transform.position = placeInTime[Timeline.currentLength];
 
         }
@@ -38,11 +44,17 @@ public class TimelineMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        collision.transform.SetParent(transform);
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.transform.SetParent(transform);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        collision.transform.SetParent(null);
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.transform.SetParent(null);
+        }
     }
 }

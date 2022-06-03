@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rigidBody;
     private CapsuleCollider2D boxCollider;
     public Vector2 movement;
+    Vector3 tempPosition;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
     {
         var movement = Input.GetAxis("Horizontal");
         rigidBody.position += new Vector2(movement, 0) * movementSpeed * Time.deltaTime;
+        transform.position = rigidBody.position;
         //rigidBody.MovePosition(rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime);
 
         //if (movement < -0.01f)

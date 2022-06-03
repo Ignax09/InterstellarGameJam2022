@@ -1084,7 +1084,7 @@ GameObject:
   - component: {fileID: 677653227}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1205,7 +1205,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 0.005
   m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -2060,6 +2060,8 @@ MonoBehaviour:
   - {x: 1.5, y: 3.5, z: 0}
   - {x: 0.5, y: 3.5, z: 0}
   - {x: -0.5, y: 3.5, z: 0}
+  boxExtents: {x: 0.5, y: 0.5, z: 0.5}
+  player: {fileID: 677653226}
 --- !u!50 &1314371320
 Rigidbody2D:
   serializedVersion: 4
