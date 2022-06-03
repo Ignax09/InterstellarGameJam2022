@@ -720,12 +720,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Infected Assault is a shoot'em up game made for GameDev.tv game jam 2022.
-    Your objective is to destroy all 5 portals placed around the map to stop the
-    invasion. When you kill the enemies they don't die, this is only the beggining,
-    they evolve into more and more powerful creatures. You will have to kill them
-    in order to gain energy that runs out over time. If you ran out of energy or
-    health it's game over.
+  m_text: About section
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
