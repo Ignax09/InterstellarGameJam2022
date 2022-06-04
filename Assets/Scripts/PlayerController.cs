@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rigidBody;
     private CapsuleCollider2D boxCollider;
-    float coyoteTime = 0.1f;
+    float coyoteTime = 0.15f;
     public float coyoteTimeCounter;
     bool isGrounded;
 
@@ -58,29 +58,29 @@ public class PlayerController : MonoBehaviour
         }
         
 
-        //if (movement < -0.01f)
-        //{
-        //    spriteRenderer.flipX = true;
-        //}
+        if (movement < -0.01f)
+        {
+            spriteRenderer.flipX = true;
+        }
 
-        //if (movement > 0.01f)
-        //{
-        //    spriteRenderer.flipX = false;
-        //}
+        if (movement > 0.01f)
+        {
+            spriteRenderer.flipX = false;
+        }
 
         //animator.SetBool("is_walking", Mathf.Abs(movement) > 0.01f);
 
-        //if (movement.x == 0)
-        //{
-        //    if (rigidBody.velocity.x > 0)
-        //    {
-        //        rigidBody.velocity = new Vector2(rigidBody.velocity.x - noMovementDrag, rigidBody.velocity.y);
-        //    }
-        //    if (rigidBody.velocity.x < 0)
-        //    {
-        //        rigidBody.velocity = new Vector2(rigidBody.velocity.x + noMovementDrag, rigidBody.velocity.y);
-        //    }
-        //}
+        if (movement == 0)
+        {
+            if (rigidBody.velocity.x > 0)
+            {
+                rigidBody.velocity = new Vector2(rigidBody.velocity.x - noMovementDrag, rigidBody.velocity.y);
+            }
+            if (rigidBody.velocity.x < 0)
+            {
+                rigidBody.velocity = new Vector2(rigidBody.velocity.x + noMovementDrag, rigidBody.velocity.y);
+            }
+        }
 
         if (rigidBody.velocity.x > movementSpeed)
         {
@@ -100,8 +100,9 @@ public class PlayerController : MonoBehaviour
 
     void jump()
     {
-        if (coyoteTimeCounter >= 0)
+        if (coyoteTimeCounter > 0)
         {
+            coyoteTimeCounter = 0;
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
             rigidBody.velocity = new Vector2(0, jumpForce);
             Debug.Log("jump");
