@@ -12,8 +12,9 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rigidBody;
     private CapsuleCollider2D boxCollider;
-    public Vector2 movement;
-    Vector3 tempPosition;
+    float coyoteTime = 0.1f;
+    public float coyoteTimeCounter;
+    bool isGrounded;
 
     void Start()
     {
@@ -26,10 +27,36 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        var movement = Input.GetAxis("Horizontal");
-        rigidBody.position += new Vector2(movement, 0) * movementSpeed * Time.deltaTime;
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size - new Vector3(0.25f, 0f, 0), -0.01f, Vector2.down, boxCollider.bounds.extents.y, layerMask);
+        if (raycastHit.collider != null)
+        {
+            isGrounded = true;
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            isGrounded = false;
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+
+        var movement = Input.GetAxisRaw("Horizontal");
+        rigidBody.velocity = new Vector2(movement * movementSpeed, rigidBody.velocity.y);
+        //rigidBody.position += movement * movementSpeed * Time.deltaTime;
+        //rigidBody.MovePosition(new Vector2(rigidBody.position.x + movement.x * movementSpeed * Time.fixedDeltaTime, rigidBody.position.y));
+        //rigidBody.AddForce(movement * movementSpeed);
+        //rigidBody.position.y - rigidBody.gravityScale * Time.deltaTime)
         transform.position = rigidBody.position;
-        //rigidBody.MovePosition(rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime);
+
+        if (isGrounded == true)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+        
 
         //if (movement < -0.01f)
         //{
@@ -43,26 +70,26 @@ public class PlayerController : MonoBehaviour
 
         //animator.SetBool("is_walking", Mathf.Abs(movement) > 0.01f);
 
-        if (movement == 0)
+        //if (movement.x == 0)
+        //{
+        //    if (rigidBody.velocity.x > 0)
+        //    {
+        //        rigidBody.velocity = new Vector2(rigidBody.velocity.x - noMovementDrag, rigidBody.velocity.y);
+        //    }
+        //    if (rigidBody.velocity.x < 0)
+        //    {
+        //        rigidBody.velocity = new Vector2(rigidBody.velocity.x + noMovementDrag, rigidBody.velocity.y);
+        //    }
+        //}
+
+        if (rigidBody.velocity.x > movementSpeed)
         {
-            if (rigidBody.velocity.x > 0)
-            {
-                rigidBody.velocity = new Vector2(rigidBody.velocity.x - noMovementDrag, rigidBody.velocity.y);
-            }
-            if (rigidBody.velocity.x < 0)
-            {
-                rigidBody.velocity = new Vector2(rigidBody.velocity.x + noMovementDrag, rigidBody.velocity.y);
-            }
+            rigidBody.velocity = new Vector2(movementSpeed, rigidBody.velocity.y);
         }
 
-        if (rigidBody.velocity.x > 10)
+        if (rigidBody.velocity.x < -movementSpeed)
         {
-            rigidBody.velocity = new Vector2(10, rigidBody.velocity.y);
-        }
-
-        if (rigidBody.velocity.x < -10)
-        {
-            rigidBody.velocity = new Vector2(-10, rigidBody.velocity.y);
+            rigidBody.velocity = new Vector2(-movementSpeed, rigidBody.velocity.y);
         }
 
         if (Input.GetKeyDown("space"))
@@ -73,18 +100,11 @@ public class PlayerController : MonoBehaviour
 
     void jump()
     {
-        if (isGrounded())
+        if (coyoteTimeCounter >= 0)
         {
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
-            rigidBody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            rigidBody.velocity = new Vector2(0, jumpForce);
             Debug.Log("jump");
         }
-    }
-
-    private bool isGrounded()
-    {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size - new Vector3(0.25f, 0f, 0), -0.01f, Vector2.down, boxCollider.bounds.extents.y, layerMask);
-        return raycastHit.collider.tag == "Ground";
-        
     }
 }
