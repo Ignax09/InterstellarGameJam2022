@@ -15,6 +15,15 @@ public class PlayerController : MonoBehaviour
     public Vector2 movement;
     Vector3 tempPosition;
 
+    public AudioSource playerAudioFiles;
+    public AudioClip[] jumpSndArray;
+    public AudioClip[] landSndArray;
+
+    void Awake()
+    {
+        playerAudioFiles = GetComponent<AudioSource>();
+    }
+
     void Start()
     {
         noMovementDrag = 1;
@@ -78,6 +87,8 @@ public class PlayerController : MonoBehaviour
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
             rigidBody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             Debug.Log("jump");
+            playerAudioFiles.clip = jumpSndArray[Random.Range(0, jumpSndArray.Length)];
+            playerAudioFiles.PlayOneShot(playerAudioFiles.clip);
         }
     }
 
@@ -86,5 +97,12 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size - new Vector3(0.25f, 0f, 0), -0.01f, Vector2.down, boxCollider.bounds.extents.y, layerMask);
         return raycastHit.collider.tag == "Ground";
         
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        playerAudioFiles.clip = landSndArray[Random.Range(0, landSndArray.Length)];
+        playerAudioFiles.PlayOneShot(playerAudioFiles.clip);
+
     }
 }
