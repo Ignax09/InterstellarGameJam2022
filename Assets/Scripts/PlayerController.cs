@@ -16,6 +16,15 @@ public class PlayerController : MonoBehaviour
     public float coyoteTimeCounter;
     bool isGrounded;
 
+    public AudioSource playerAudioFiles;
+    public AudioClip[] jumpSndArray;
+    public AudioClip[] landSndArray;
+
+    void Awake()
+    {
+        playerAudioFiles = GetComponent<AudioSource>();
+    }
+
     void Start()
     {
         noMovementDrag = 1;
@@ -106,6 +115,8 @@ public class PlayerController : MonoBehaviour
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
             rigidBody.velocity = new Vector2(0, jumpForce);
             Debug.Log("jump");
+            playerAudioFiles.clip = jumpSndArray[Random.Range(0, jumpSndArray.Length)];
+            playerAudioFiles.PlayOneShot(playerAudioFiles.clip);
         }
     }
 }
