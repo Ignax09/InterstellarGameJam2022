@@ -7,10 +7,11 @@ public class TimelineMovement : MonoBehaviour
     public Vector3[] placeInTime;
     public Vector3 boxExtents;
     public GameObject player;
+    public int currentTime;
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = placeInTime[0];
+        transform.position = placeInTime[Timeline.currentLength];
     }
 
     // Update is called once per frame
@@ -18,6 +19,7 @@ public class TimelineMovement : MonoBehaviour
     {
         if (Timeline.canPlay)
         {
+            currentTime = Timeline.currentLength;
             if (Timeline.currentLength < Timeline.totalLength && Timeline.currentLength > 0)
             {
                 transform.position = Vector3.MoveTowards(transform.position, placeInTime[Timeline.currentLength], 1 * Time.deltaTime);
@@ -51,6 +53,8 @@ public class TimelineMovement : MonoBehaviour
 
     void MoveToPoint()
     {
-        transform.position = placeInTime[Timeline.currentLength];
+        player.transform.SetParent(null);
+        transform.position = placeInTime[currentTime];
+        
     }
 }

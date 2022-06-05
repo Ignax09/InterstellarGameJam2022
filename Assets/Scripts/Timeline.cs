@@ -13,6 +13,7 @@ public class Timeline : MonoBehaviour
     public static bool canPlay;
     public static bool timeSkipped;
     public static GameObject[] gos;
+    public TextMeshProUGUI text;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +29,8 @@ public class Timeline : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
+        text.text = $"{currentLength}"; 
         slider.value = Mathf.RoundToInt(currentLengthFloat);
         currentLength = Mathf.RoundToInt(currentLengthFloat);
         if (currentLengthFloat >= totalLength)
