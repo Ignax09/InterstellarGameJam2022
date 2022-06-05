@@ -9,9 +9,10 @@ public class Timeline : MonoBehaviour
     public Slider slider;
     public static int totalLength;
     static public int currentLength;
-    public float currentLengthFloat;
+    public static float currentLengthFloat;
     public static bool canPlay;
     public static bool timeSkipped;
+    public static GameObject[] gos;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,10 +38,6 @@ public class Timeline : MonoBehaviour
         {
             currentLengthFloat = 0;
         }
-        if (timeSkipped)
-        {
-            Invoke("ClearTimeSkip", 0.01f);
-        }
         if (canPlay)
         {
             currentLengthFloat += Time.deltaTime;
@@ -52,6 +49,7 @@ public class Timeline : MonoBehaviour
     public void ChangeTime(int time)
     {
         currentLengthFloat += time;
+        MovePlatforms();
         timeSkipped = true;
     }
 
@@ -65,8 +63,18 @@ public class Timeline : MonoBehaviour
         canPlay = true;
     }
 
-    public void ClearTimeSkip()
+    private void LateUpdate()
     {
         timeSkipped = false;
+    }
+
+    void MovePlatforms()
+    {
+        gos = GameObject.FindGameObjectsWithTag("MovingPlatform");
+
+        for (var i = 0; i < gos.Length; i++)
+        {
+            gos[i].SendMessage("MoveToPoint");
+        }
     }
 }

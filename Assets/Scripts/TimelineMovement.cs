@@ -16,16 +16,7 @@ public class TimelineMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Timeline.timeSkipped)
-        {
-            if (Physics.CheckBox(transform.position, boxExtents, Quaternion.identity, 6, QueryTriggerInteraction.Collide));
-            {
-                player.transform.SetParent(null);
-            }
-            transform.position = placeInTime[Timeline.currentLength];
-
-        }
-        else if (Timeline.canPlay)
+        if (Timeline.canPlay)
         {
             if (Timeline.currentLength < Timeline.totalLength && Timeline.currentLength > 0)
             {
@@ -56,5 +47,10 @@ public class TimelineMovement : MonoBehaviour
         {
             collision.transform.SetParent(null);
         }
+    }
+
+    void MoveToPoint()
+    {
+        transform.position = placeInTime[Timeline.currentLength];
     }
 }

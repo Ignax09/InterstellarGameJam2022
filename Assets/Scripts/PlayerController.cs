@@ -36,19 +36,18 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         var movement = Input.GetAxis("Horizontal");
-        rigidBody.position += new Vector2(movement, 0) * movementSpeed * Time.deltaTime;
-        transform.position = rigidBody.position;
+        rigidBody.velocity = new Vector2(movement * movementSpeed, rigidBody.velocity.y);
         //rigidBody.MovePosition(rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime);
 
-        //if (movement < -0.01f)
-        //{
-        //    spriteRenderer.flipX = true;
-        //}
+        if (movement < -0.01f)
+        {
+            spriteRenderer.flipX = true;
+        }
 
-        //if (movement > 0.01f)
-        //{
-        //    spriteRenderer.flipX = false;
-        //}
+        if (movement > 0.01f)
+        {
+            spriteRenderer.flipX = false;
+        }
 
         //animator.SetBool("is_walking", Mathf.Abs(movement) > 0.01f);
 
@@ -95,7 +94,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size - new Vector3(0.25f, 0f, 0), -0.01f, Vector2.down, boxCollider.bounds.extents.y, layerMask);
-        return raycastHit.collider.tag == "Ground";
+        return raycastHit.collider.tag == "Ground" || raycastHit.collider.tag == "MovingPlatform";
         
     }
 
@@ -103,6 +102,14 @@ public class PlayerController : MonoBehaviour
     {
         playerAudioFiles.clip = landSndArray[Random.Range(0, landSndArray.Length)];
         playerAudioFiles.PlayOneShot(playerAudioFiles.clip);
+        if (collision.gameObject.tag == "Spike")
+        {
+            Death();
+        }
+    }
 
+    private void Death()
+    {
+        Debug.Log("lol you died");
     }
 }
