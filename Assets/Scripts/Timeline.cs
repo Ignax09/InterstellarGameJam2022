@@ -9,7 +9,7 @@ public class Timeline : MonoBehaviour
     public Slider slider;
     public static int totalLength;
     static public int currentLength;
-    public float currentLengthFloat;
+    public static float currentLengthFloat;
     public static bool canPlay;
     public static bool timeSkipped;
     // Start is called before the first frame update
@@ -49,18 +49,18 @@ public class Timeline : MonoBehaviour
         
     }
 
-    public void ChangeTime(int time)
+    public static void ChangeTime(int time)
     {
         currentLengthFloat += time;
         timeSkipped = true;
     }
 
-    public void StopTime()
+    public static void StopTime()
     {
         canPlay = false;
     }
 
-    public void PlayTime()
+    public static void PlayTime()
     {
         canPlay = true;
     }

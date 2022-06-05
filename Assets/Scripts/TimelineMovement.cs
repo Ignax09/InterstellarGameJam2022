@@ -18,10 +18,7 @@ public class TimelineMovement : MonoBehaviour
     {
         if (Timeline.timeSkipped)
         {
-            if (Physics.CheckBox(transform.position, boxExtents, Quaternion.identity, 6, QueryTriggerInteraction.Collide));
-            {
-                player.transform.SetParent(null);
-            }
+            player.transform.SetParent(null);
             transform.position = placeInTime[Timeline.currentLength];
 
         }
